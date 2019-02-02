@@ -1,0 +1,1 @@
+Get-ChildItem -Filter "Schedule Update*" | Rename-Item -NewName {$_.name -replace 'Schedule','ReadOnly' }

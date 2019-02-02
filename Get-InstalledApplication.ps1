@@ -93,3 +93,4 @@ Function Get-InstalledApplication {
 }
 
 Get-InstalledApplication
+

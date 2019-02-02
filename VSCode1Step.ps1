@@ -1,12 +1,13 @@
 <#
 Author: nathan@logdata.tech
 ExpectedFileName: VSCode1Step.ps1
-CanonicalSource: https://github....
-Name: VS-Code Whole Enchilada Install
-Purpose: To Download VS Code and Related Software 
-Then Run Completely Unattended Installers
+CanonicalSource: https://raw.githubusercontent.com/logdatatech/PowerShelled/master/VSCode1Step.ps1
+Purpose: 
+- To Download VS Code 
+- And Related Software Then Run Completely Unattended Installers
+- Install Extensions
 #>
-$SCRIPT_VERSION = "1.0.0"
+$SCRIPT_VERSION = "1.0.0" # These are a little Passe it's in the Git.
 $SCRIPT_NAME = "Visual Studio Code ... Install All The Things "
 #Write-Information -MessageData "$SCRIPT_NAME $SCRIPT_VERSION" -Tags "Config" -InformationAction Continue
 Write-Host -ForegroundColor 5 -BackgroundColor 3 -Object "$SCRIPT_NAME $SCRIPT_VERSION" -NoNewline
@@ -77,37 +78,7 @@ Make sure you use the full extension ID, including the publisher, eg: ms-vscode.
 
 C:\OpenShare>echo %ERRORLEVEL%
 1
-AwesomeAutomationTeam.azureautomation
-bungcip.better-toml
-danields761.status-bar-breadcrumb
-Darfka.vbscript
-DavidAnson.vscode-markdownlint
-donjayamanne.githistory
-donjayamanne.jupyter
-eamodio.gitlens
-formulahendry.code-runner
-GitHub.vscode-pull-request-github
-humao.rest-client
-ms-mssql.mssql
-ms-python.anaconda-extension-pack
-ms-python.python
-ms-toolsai.vscode-ai
-ms-vscode.azure-account
-ms-vscode.PowerShell
-ms-vsliveshare.vsliveshare
-ms-vsts.team
-quicktype.quicktype
-redhat.vscode-yaml
-Shan.code-settings-sync
-shyykoserhiy.vscode-spotify
-skyran.vba
-spences10.vba
-spences10.vba-snippets
-spences10.vscode-vba-icons
-tomoki1207.pdf
 
-wayou.vscode-todo-highlight
-wesbos.theme-cobalt2
 
 #>
 

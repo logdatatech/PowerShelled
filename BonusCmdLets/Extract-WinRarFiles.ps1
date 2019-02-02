@@ -1,47 +1,31 @@
-﻿################################################################
-# Author: Ron Ratzlaff
+﻿# Author: Ron Ratzlaff
 # Script Title: Extract WinRAR Files PowerShell Tool
 # Script File Name: Extract-WinRARFiles.ps1
 # Date Created: 05/27/2017
-################################################################ 
 
 #Requires -Version 5.0
 
+<# 
+    .SYNOPSIS     
+        The Extract WinRAR Files Tool simply does what the name implies and extracts WinRAR files.         
+    .DESCRIPTION 
+        The Extract WinRAR Files Tool extracts WinRAR files from a specified source directory and places them in a specified target directory. There is a parameters that will allow the user to open up the target location once the files have been extracted as well as a parameter to delete the source directory.         
+    .PARAMETER UnrarExePath    
+        Use this parameter to specify the path to the UnRar executable extraction tool that gets installed along with the WinRAR application.     
+    .PARAMETER UnRarSourcePath    
+        Use this parameter to specify the source of the RAR (.rar) files that need to be extracted. 
+    .PARAMETER UnRarTargetPath
+        Use this parameter to specify the target location where the extracted files are to be placed.     
+    .PARAMETER OpenTargetLocation    
+        Use this parameter to open the target directory where the extracted files are located.
+    .PARAMETER DeleteSourceRarFiles    
+        Use this parameter to delete the parent directory where all the RAR files are located, including sub-directories if they exist.    
+    .EXAMPLE  
+    Extract all RAR files from all subdirectories within a parent directory (recursive), located in a directory named "SourceRARFiles" and extract to a directory on the user's Desktop named "TargetRARFiles" and open the target folder after extraction and then delete the source folder afterward.  
+    Extract-WinRarFiles -UnRarSourcePath "$env:TEMP\SourcetRARFiles" -UnRarTargetPath "$env:USERPROFILE\Desktop\TargetRARFiles" -OpenTargetLocation -DeleteSourceRarFiles    
+    #>
 Function Extract-WinRarFiles
 {
-    <# 
-      .SYNOPSIS 
-       
-          The Extract WinRAR Files Tool simply does what the name implies and extracts WinRAR files. 
-         
-      .DESCRIPTION 
-       
-          The Extract WinRAR Files Tool extracts WinRAR files from a specified source directory and places them in a specified target directory. There is a parameters that will allow the user to open up the target location once the files have been extracted as well as a parameter to delete the source directory. 
-          
-      .PARAMETER UnrarExePath
-       
-          Use this parameter to specify the path to the UnRar executable extraction tool that gets installed along with the WinRAR application. 
-      
-      .PARAMETER UnRarSourcePath
-       
-          Use this parameter to specify the source of the RAR (.rar) files that need to be extracted. 
-
-      .PARAMETER UnRarTargetPath
-       
-          Use this parameter to specify the target location where the extracted files are to be placed. 
-      
-      .PARAMETER OpenTargetLocation
-       
-          Use this parameter to open the target directory where the extracted files are located.
-
-      .PARAMETER DeleteSourceRarFiles
-       
-          Use this parameter to delete the parent directory where all the RAR files are located, including sub-directories if they exist.
-      
-      .EXAMPLE  
-        Extract all RAR files from all subdirectories within a parent directory (recursive), located in a directory named "SourceRARFiles" and extract to a directory on the user's Desktop named "TargetRARFiles" and open the target folder after extraction and then delete the source folder afterward.  
-        Extract-WinRarFiles -UnRarSourcePath "$env:TEMP\SourcetRARFiles" -UnRarTargetPath "$env:USERPROFILE\Desktop\TargetRARFiles" -OpenTargetLocation -DeleteSourceRarFiles    
-      #>  
       
       [cmdletbinding()]
     
@@ -96,9 +80,7 @@ Function Extract-WinRarFiles
         {
             &$UnRarExePath x -y $FilePath $UnRarTargetPath
         }
-
         $RarFileTargetCount = (Get-ChildItem -Path $UnRarTargetPath).Count
-
         If ($RarFileTargetCount -eq $RarFileSourceCount)
         {
             Clear-Host
@@ -113,7 +95,6 @@ Function Extract-WinRarFiles
             $NewLine
         }  
     }
-
     End
     {
         Switch ($PSBoundParameters.Keys)

@@ -10,7 +10,7 @@ Purpose:
 $SCRIPT_VERSION = "1.0.0" # These are a little Passe it's in the Git.
 $SCRIPT_NAME = "Visual Studio Code ... Install All The Things "
 #Write-Information -MessageData "$SCRIPT_NAME $SCRIPT_VERSION" -Tags "Config" -InformationAction Continue
-Write-Host -ForegroundColor 5 -BackgroundColor 3 -Object "$SCRIPT_NAME $SCRIPT_VERSION" -NoNewline
+#Write-Host -ForegroundColor 5 -BackgroundColor 3 -Object "$SCRIPT_NAME $SCRIPT_VERSION" -NoNewline
 Write-Host -ForegroundColor 2 -BackgroundColor 5 -Object "$SCRIPT_NAME $SCRIPT_VERSION"
 
 # Display Name	Registry Name	Display Version	Registry Time	Install Date	Installed For	Install Location	Install Folder Created Time	Install Folder Modified Time	Install Folder Owner	Publisher	Uninstall String	Change Install String	Quiet Uninstall String	Comments	About URL	Update Info URL	Help Link	Install Source	Installer Name	Release Type	Display Icon Path	MSI Filename	Estimated Size	Attributes	Language	Parent Key Name	Registry Key	
@@ -60,8 +60,9 @@ if([System.IO.File]::Exists($VSCodeInstallFile)){
 } # If Installer Previously Downloaded File Already Present
 
 # Make c an Alias As Well Path will Be User Relative
-Write-Output "Make Aliac C.CMD from $EXPANDED_LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd"
+Write-Output "Make Alias C.CMD from $EXPANDED_LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd"
 Copy-Item -Path "$EXPANDED_LOCALAPPDATA\Programs\Microsoft VS Code\bin\code.cmd" -Destination "$EXPANDED_LOCALAPPDATA\Programs\Microsoft VS Code\bin\c.cmd"
+
 
 <#
 
@@ -126,6 +127,12 @@ TODO: Extra Fonts ?
 #>
 
 Exit-PSSession
+
+# Scrape this Page
+# https://gitforwindows.org/
+Start-Process -FilePath "git" -ArgumentList ' --version' -NoNewWindow -Wait -RedirectStandardError 'C:\OpenShare\StdErrors.log' -RedirectStandardOutput "C:\OpenShare\StdOutput.log"
+$CurrentGitVersion = Get-Content -Path "C:\OpenShare\StdOutput.log"
+Write-Output $CurrentGitVersion
 
 $GitSystemUninstallerPath = "C:\Program Files\Git\unins000.exe"
 if([System.IO.File]::Exists($GitSystemUninstallerPath)){

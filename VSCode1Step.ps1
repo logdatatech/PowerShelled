@@ -83,6 +83,39 @@ C:\OpenShare>echo %ERRORLEVEL%
 
 #>
 
+<#
+
+Do Some Slight Changes to Default settings.json
+
+A truly generic install will be
+
+{
+}
+
+as the entire values.
+
+NOTE: the @” and the ”@ must be the last symbols on the line.
+
+$settingsJSONEditor = @"
+    "diffEditor.renderSideBySide": true,
+    "editor.detectIndentation": false,
+    "editor.minimap.enabled": false,
+    "editor.renderControlCharacters": true,
+    "editor.renderWhitespace": "all",
+    "editor.snippetSuggestions": "top",
+    "editor.tabCompletion": "on",
+    "workbench.iconTheme": "vscode-icons",
+    "workbench.colorTheme": "Dracula",
+    "workbench.statusBar.feedback.visible": false,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+"@
+
+TODO: So We Insert this at Line 2 of the Settings.json and it should be Syntax Correct.
+Clashing Values is next thing to implement.
+
+#>
+
 #TODO: Read the Already installed Extensions and Exclude those
 
 # code --list-extensions

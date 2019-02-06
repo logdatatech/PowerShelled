@@ -41,30 +41,26 @@ function UnRAR([string]$FilePath, [bool]$RemoveSuccessful=$false)
     .Link
         http://heazlewood.blogspot.com
 #>
-     
-    # Verify we can access UNRAR.EXE .
- if ([string]::IsNullOrEmpty($unrarName) -or (Test-Path -LiteralPath $unrarName) -ne $true)
- {
+
+# Verify we can access UNRAR.EXE .
+if ([string]::IsNullOrEmpty($unrarName) -or (Test-Path -LiteralPath $unrarName) -ne $true){
      Write-Error "Unrar.exe path does not exist '$unrarPath'."
         return
-    }
-  
+}  
     [string]$unrarPath = $(Get-Command $unrarName).Definition
     if ( $unrarPath.Length -eq 0 )
     {
         Write-Error "Unable to access unrar.exe at location '$unrarPath'."
         return
     }
- 
-   # Verify we can access to the compressed file.
- if ([string]::IsNullOrEmpty($FilePath) -or (Test-Path -LiteralPath $FilePath) -ne $true)
- {
-     Write-Error "Compressed file does not exist '$FilePath'."
+
+# Verify we can access to the compressed file.
+if ([string]::IsNullOrEmpty($FilePath) -or (Test-Path -LiteralPath $FilePath) -ne $true)
+{
+    Write-Error "Compressed file does not exist '$FilePath'."
         return
     }
-  
     [System.IO.FileInfo]$Compressedfile = get-item -LiteralPath $FilePath
-     
     #set Destination to basepath folder
     #$fileBaseName = [System.IO.Path]::GetFileNameWithoutExtension($Compressedfile.Name)
     #$DestinationFolder = join-path -path $Compressedfile.DirectoryName -childpath $fileBaseName
@@ -72,13 +68,10 @@ function UnRAR([string]$FilePath, [bool]$RemoveSuccessful=$false)
     $DestinationFolder = $Compressedfile.DirectoryName 
     # If the extract directory does not exist, create it.
     CreateDirectoryIfNeeded ( $DestinationFolder ) | out-null
-
     Write-Output "Extracting files into $DestinationFolder"
     &$unrarPath x -y  $FilePath $DestinationFolder | tee-object -variable unrarOutput 
-
     #display the output of the rar process as verbose
     $unrarOutput | ForEach-Object {Write-Verbose $_ }
-
     if ( $LASTEXITCODE -ne 0 )
     { 
         # There was a problem extracting. 
@@ -97,15 +90,11 @@ function UnRAR([string]$FilePath, [bool]$RemoveSuccessful=$false)
                 ForEach-Object {$_ -replace 'Extracting from ', ''} | 
                 ForEach-Object { get-item -LiteralPath $_ } | 
                 remove-item
-
             } else {
                 Write-Verbose "Moving files to trash folder`n$trashPath" 
-         
                 [string]$trashPath = join-path -path $DestinationFolder "Trash"
-                 
                 #create trash folder to move rars to
                 #CreateDirectoryIfNeeded ($trashPath)
-                 
                 #move rar files listed in output.
                 #$unrarOutput -match "(?<=Extracting\sfrom\s)(?<rarfile>.*)$" | 
                 #ForEach-Object {$_ -replace 'Extracting from ', ''} | 
@@ -115,33 +104,28 @@ function UnRAR([string]$FilePath, [bool]$RemoveSuccessful=$false)
         }
     }
 }
- 
 function CreateDirectoryIfNeeded ( [string] $Directory ){
 <#
     .Synopsis
         checks if a folder exists, if it does not it is created
     .Example
         CreateDirectoryIfNeeded "c:\foobar"
-        Creates folder foobar in c:\
-    .Link
-        http://heazlewood.blogspot.com
 #>
     if ((test-path -LiteralPath $Directory) -ne $True)
     {
         New-Item $Directory-type directory | out-null
-
         if ((test-path -LiteralPath $Directory) -ne $True)
         {
-            Write-error ("Directory creation failed")
+            Write-Error ("Directory creation failed")
         }
         else
         {
-            Write-verbose ("Creation of directory succeeded")
+            Write-Verbose ("Creation of directory succeeded")
         }
     }
     else
     {
-        Write-verbose ("Creation of directory not needed")
+        Write-Verbose ("Creation of directory not needed")
     }
 }
 
@@ -152,7 +136,6 @@ function CreateDirectoryIfNeeded ( [string] $Directory ){
 
 # Start at a Top / Parent Folder
 $inputPath = "C:\tmp\EBOOKS"
-
 
 # Recurse Each Sub Folder Remove All Except
 # .pdf
@@ -165,7 +148,7 @@ $inputPath = "C:\tmp\EBOOKS"
 #    Remove-Item $thisFile -Force
 #}
 
-Get-ChildItem -Directory -Path $inputPath -Recurse | Sort-Object name | % {
+Get-ChildItem -Directory -Path $inputPath -Recurse | Sort-Object name | ForEach-Object {
     $thisFolder = $_.FullName
     # First one has to be the Source Folder
     $newFolder = $thisFolder.Replace(".Retail.eBook-BitBook","")
@@ -182,7 +165,7 @@ Get-ChildItem -Directory -Path $inputPath -Recurse | Sort-Object name | % {
     #Rename-item -Path $thisFolder -whatIf -NewName $newFolder -Verbose
     # if new differs from old
     if ($thisFolder -ne $newFolder) {
-      Write-Host "RENAME $thisFolder -> $newFolder"
-      Rename-item -Path $thisFolder -NewName $newFolder -Verbose
+        Write-Host "RENAME $thisFolder -> $newFolder"
+        Rename-item -Path $thisFolder -NewName $newFolder -Verbose
     }
 }

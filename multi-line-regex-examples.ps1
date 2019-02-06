@@ -1,9 +1,5 @@
 # https://stackoverflow.com/questions/12572164/multiline-regex-to-match-config-block
 
-#$fileContent = [io.file]::ReadAllText("C:\file.txt") # Uses .NET
-
-$fileContent = Get-Content c:\file.txt -Raw # PS 3.0+ required.
-
 <#
 
 00-01-23-45-67-89
@@ -19,20 +15,20 @@ SingleLine mode (. matches any char including line feed), as well as
 Multiline mode (^ and $ match embedded line terminators), e.g.
 (?smi) - note the "i" is to ignore case
 e.g.:
-
 #>
+
+$fileToTestWith = "c:\SACRIFICIAL\tender.csv"
+
+$fileContent = Get-Content $fileToTestWith -Raw # PS 3.0+ required
 
 $fileContent | Select-String '(?smi)([0-9a-f]{2}(-|\s*$)){6}.*?!' -AllMatches | ForEach-Object {$_.Matches} | ForEach-Object {$_.Value}
 
-
-$fileContent = [io.file]::ReadAllText("c:\file.txt")
-
+$fileContent = [io.file]::ReadAllText($fileToTestWith) # Uses .NET
 
 $fileContent |
     Select-String '(?smi)ap71xx[^!]+!' -AllMatches |
     ForEach-Object { $_.Matches } |
     ForEach-Object { $_.Value }
-
 
 $fileContent |
     Select-String '(?smi)ap71xx([^!]+!)' -AllMatches |

@@ -21,9 +21,9 @@
     Note about Commands: If you have a dollar sign in your password you MUST
     escape it in order for it to work:
         Example:  -Commands "admin","$ecurePa$$word"
-                  This will not work!
+    This will not work!
         Example:  -Commands "admin","`$ecurePa`$`$word"
-                  This WILL work
+    This WILL work
 .PARAMETER RemoteHost
     Name or IP address of the host you wish to connect to.
 .PARAMETER Port
@@ -123,7 +123,6 @@ if (test-path $file) {
 	Write-Host "You Do Not have a Cached Credential File $file"
 	Write-Host "Run .\cache-password-TACACS.ps1"
 }
-
 
 Get-Telnet -RemoteHost "10.27.30.16" -Commands $tacacs_username,$passwordPlainTextString,"en","terminal length 0","show running-config" -OutputPath "H:\Scripts\10.27.30.16_output.txt"  -WaitTime 2000
 
